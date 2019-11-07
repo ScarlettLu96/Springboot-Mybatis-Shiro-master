@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pjb.mapper.SysPermissionMapper">
+<!--<select id="findPermissionByRoleId" resultType="com.pjb.entity.SysPermission">-->
+    <!--SELECT-->
+    <!--t_shirodemo_role.id,-->
+    <!--t_shirodemo_role.available,-->
+    <!--t_shirodemo_role.description,-->
+    <!--t_shirodemo_role.role,-->
+    <!--t_shirodemo_permission.`name`,-->
+    <!--t_shirodemo_permission.permission,-->
+    <!--t_shirodemo_permission.url-->
+    <!--FROM-->
+    <!--(t_shirodemo_permission, t_shirodemo_role)-->
+    <!--RIGHT JOIN t_shirodemo_role_permission ON t_shirodemo_permission.id = t_shirodemo_role_permission.permission_id-->
+    <!--AND t_shirodemo_role_permission.role_id = t_shirodemo_role.id-->
+    <!--WHERE t_shirodemo_role.id=#{roleId}-->
+<!--</select>-->
+    <select id="findPermissionByRoleId" resultType="com.pjb.entity.SysPermission">
+    SELECT
+    t_shirodemo_role.id,
+    t_shirodemo_role.available,
+    t_shirodemo_role.description,
+    t_shirodemo_role.role,
+    t_shirodemo_permission.name,
+    t_shirodemo_permission.permission,
+    t_shirodemo_permission.url,
+    t_shirodemo_permission.id,
+
+t_shirodemo_role_permission.role_id,
+t_shirodemo_role_permission.permission_id
+
+    FROM
+     t_shirodemo_role,t_shirodemo_permission,t_shirodemo_role_permission
+   /* RIGHT JOIN t_shirodemo_role_permission ON t_shirodemo_permission.id = t_shirodemo_role_permission.permission_id*/
+
+    WHERE    t_shirodemo_role_permission.role_id = t_shirodemo_role.id
+    and t_shirodemo_permission.id = t_shirodemo_role_permission.permission_id
+    AND t_shirodemo_role.id=#{roleId}
+    </select>
+
+</mapper>

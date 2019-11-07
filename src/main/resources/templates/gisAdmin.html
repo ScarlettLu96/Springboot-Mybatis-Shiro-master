@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Home</title>
+        <!-- Styles -->
+        <link href="../static/assets1/css/lib/calendar2/pignose.calendar.min.css" rel="stylesheet">
+        <link href="../static/assets1/css/lib/chartist/chartist.min.css" rel="stylesheet">
+        <link href="../static/assets1/css/lib/font-awesome.min.css" rel="stylesheet">
+        <link href="../static/assets1/css/lib/themify-icons.css" rel="stylesheet">
+        <link href="../static/assets1/css/lib/owl.carousel.min.css" rel="stylesheet" />
+        <link href="../static/assets1/css/lib/owl.theme.default.min.css" rel="stylesheet" />
+        <link href="../static/assets1/css/lib/weather-icons.css" rel="stylesheet" />
+        <link href="../static/assets1/css/lib/menubar/sidebar.css" rel="stylesheet">
+        <link href="../static/assets1/css/lib/bootstrap.min.css" rel="stylesheet">
+        <link href="../static/assets1/css/lib/helper.css" rel="stylesheet">
+        <link href="../static/assets1/css/style.css" rel="stylesheet">
+        <script type="text/javascript" src="../static/js/jquery-2.1.4.min.js"></script>
+        <script type="text/javascript"  src="../static/echarts.js"></script>
+
+        <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.staticfile.org/ionicons/2.0.1/css/ionicons.min.css">
+
+        <style>
+            .menu-expanded {
+                background-color: transparent;
+                position: relative;
+                width: 230px;
+                height:100%;
+                top: 0px;
+                left: 0px;
+                overflow: hidden !important;
+                z-index: 5;
+            }
+
+            .menu {
+                float: left;
+                margin: 15px 15px 0 0;
+                /*height:100%*/
+                height: 49px;
+                width: 49px;
+                border-radius: 50%;
+                background-color: #ffb8ad;
+                border: none;
+                transition: all 0.40s ease-out;
+            }
+
+            .main-menu {
+                visibility: hidden;
+                position: absolute;
+                right: 13px;
+                top: 100px;
+                opacity: 0;
+                transition: all 0.300s;
+                transition-delay: 0s;
+            }
+
+            .menu,
+            .linee {
+                cursor: pointer;
+            }
+
+            .over {
+                transform: scale(100);
+                transition: all 0.350s ease-in;
+                cursor: default;
+            }
+
+            .linea1 {
+                background: #34911d;
+                height: 2px;
+                width: 15px;
+                position: absolute;
+                left: 17px;
+                top: 33px;
+                transition: all 0.3s;
+            }
+
+            .linea2 {
+                background: #34911d;
+                height: 2px;
+                width: 15px;
+                position: absolute;
+                left: 17px;
+                top: 38px;
+                opacity: 1;
+                transition: opacity 0.5s;
+            }
+
+            .linea3 {
+                background: #34911d;
+                height: 2px;
+                width: 15px;
+                position: absolute;
+                left: 17px;
+                top: 43px;
+            }
+
+            .overL1 {
+                animation: closetop 1s forwards;
+                animation-direction: alternate;
+                cursor: pointer;
+            }
+
+            .overL2 {
+                opacity: 0;
+                transition: opacity 0.5s;
+                cursor: pointer;
+            }
+
+            .overL3 {
+                animation: closebottom 1s forwards;
+                animation-direction: alternate;
+                cursor: pointer;
+            }
+
+
+            @keyframes closetop {
+                0% {
+                    transform: translateY(5px) rotate(0deg);
+                }
+                25% {
+                    transform: translateY(5px) rotate(0deg);
+                }
+                75% {
+                    transform: translateY(5px) rotate(-45deg);
+                }
+                100% {
+                    transform: translateY(5px) rotate(-45deg);
+                }
+            }
+
+            @keyframes closebottom {
+                0% {
+                    transform: translateY(0px) rotate(0deg);
+                }
+                25% {
+                    transform: translateY(-5px) rotate(0deg);
+                }
+                75% {
+                    transform: translateY(-5px) rotate(45deg);
+                }
+                100% {
+                    transform: translateY(-5px) rotate(45deg);
+                }
+            }
+
+            .overmain {
+                visibility: visible;
+                opacity: 1;
+                transition: all 0.400s;
+                transition-delay: 0.370s;
+            }
+
+        </style>
+
+        <!--引用百度地图API-->
+        <style type="text/css">
+            html,body{margin:0;padding:0;}
+            .iw_poi_title {color:#CC5522;font-size:14px;font-weight:bold;overflow:hidden;padding-right:13px;white-space:nowrap}
+            .iw_poi_content {font:12px arial,sans-serif;overflow:visible;padding-top:4px;white-space:-moz-pre-wrap;word-wrap:break-word}
+        </style>
+        <!--<script type="text/javascript" src="http://api.map.baidu.com/api?key=&v=1.1&services=true"></script>-->
+        <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.2"></script>
+
+
+        <script type="text/javascript">
+
+            function display(id){
+                var traget=document.getElementById(id);
+                if(traget.style.display=="none"){
+                    traget.style.display="";
+                }else{
+                    traget.style.display="none";
+                }
+            }
+        </script>
+    </head>
+
+    <body>
+
+        <div class="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
+            <div class="nano">
+                <div class="nano-content">
+                    <ul>
+                        <!--<div class="logo"><a href="index.html">&lt;!&ndash; <img src="assets/images/logo.png" alt="" /> &ndash;&gt;<span>Focus</span></a></div>-->
+                        <li class="label">Main</li>
+                        <li><a class="sidebar-sub-toggle"><i class="ti-home"></i> Dashboard <span class="badge badge-primary">2</span> <span class="sidebar-collapse-icon ti-angle-down"></span></a>
+                            <ul>
+                                <li><a href="index.html">Dashboard 1</a></li>
+                                <li><a href="index1.html">Dashboard 2</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="label">Apps</li>
+                        <li><a class="sidebar-sub-toggle"><i class="ti-bar-chart-alt"></i>  Charts  <span class="sidebar-collapse-icon ti-angle-down"></span></a>
+                            <ul>
+                                <li><a href="chart-flot.html">Flot</a></li>
+                                <li><a href="chart-morris.html">Morris</a></li>
+                                <li><a href="chartjs.html">Chartjs</a></li>
+                                <li><a href="chartist.html">Chartist</a></li>
+                                <li><a href="chart-peity.html">Peity</a></li>
+                                <li><a href="chart-sparkline.html">Sparkle</a></li>
+                                <li><a href="chart-knob.html">Knob</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="app-event-calender.html"><i class="ti-calendar"></i> Calender </a></li>
+                        <li><a href="app-email.html"><i class="ti-email"></i> Email</a></li>
+                        <li><a href="app-profile.html"><i class="ti-user"></i> Profile</a></li>
+                        <li><a href="app-widget-card.html"><i class="ti-layout-grid2-alt"></i> Widget</a></li>
+                        <li class="label">Features</li>
+                        <li><a class="sidebar-sub-toggle"><i class="ti-layout"></i> UI Elements <span class="sidebar-collapse-icon ti-angle-down"></span></a>
+                            <ul>
+                                <li><a href="ui-typography.html">Typography</a></li>
+                                <li><a href="ui-alerts.html">Alerts</a></li>
+
+                                <li><a href="ui-button.html">Button</a></li>
+                                <li><a href="ui-dropdown.html">Dropdown</a></li>
+
+                                <li><a href="ui-list-group.html">List Group</a></li>
+
+                                <li><a href="ui-progressbar.html">Progressbar</a></li>
+                                <li><a href="ui-tab.html">Tab</a></li>
+
+                            </ul>
+                        </li>
+                        <li><a class="sidebar-sub-toggle"><i class="ti-panel"></i> Components <span class="sidebar-collapse-icon ti-angle-down"></span></a>
+                            <ul>
+                                <li><a href="uc-calendar.html">Calendar</a></li>
+                                <li><a href="uc-carousel.html">Carousel</a></li>
+                                <li><a href="uc-weather.html">Weather</a></li>
+                                <li><a href="uc-datamap.html">Datamap</a></li>
+                                <li><a href="uc-todo-list.html">To do</a></li>
+                                <li><a href="uc-scrollable.html">Scrollable</a></li>
+                                <li><a href="uc-sweetalert.html">Sweet Alert</a></li>
+                                <li><a href="uc-toastr.html">Toastr</a></li>
+                                <li><a href="uc-range-slider-basic.html">Basic Range Slider</a></li>
+                                <li><a href="uc-range-slider-advance.html">Advance Range Slider</a></li>
+                                <li><a href="uc-nestable.html">Nestable</a></li>
+
+                                <li><a href="uc-rating-bar-rating.html">Bar Rating</a></li>
+                                <li><a href="uc-rating-jRate.html">jRate</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="sidebar-sub-toggle"><i class="ti-layout-grid4-alt"></i> Table <span class="sidebar-collapse-icon ti-angle-down"></span></a>
+                            <ul>
+                                <li><a href="table-basic.html">Basic</a></li>
+
+                                <li><a href="table-export.html">Datatable Export</a></li>
+                                <li><a href="table-row-select.html">Datatable Row Select</a></li>
+                                <li><a href="table-jsgrid.html">Editable </a></li>
+                            </ul>
+                        </li>
+                        <li><a class="sidebar-sub-toggle"><i class="ti-heart"></i> Icons <span class="sidebar-collapse-icon ti-angle-down"></span></a>
+                            <ul>
+                                <li><a href="font-themify.html">Themify</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="sidebar-sub-toggle"><i class="ti-map"></i> Maps <span class="sidebar-collapse-icon ti-angle-down"></span></a>
+                            <ul>
+                                <li><a href="gmaps.html">Basic</a></li>
+                                <li><a href="vector-map.html">Vector Map</a></li>
+                            </ul>
+                        </li>
+                        <li class="label">Form</li>
+                        <li><a href="form-basic.html"><i class="ti-view-list-alt"></i> Basic Form </a></li>
+                        <li class="label">Extra</li>
+                        <li><a class="sidebar-sub-toggle"><i class="ti-files"></i> Invoice <span class="sidebar-collapse-icon ti-angle-down"></span></a>
+                            <ul>
+                                <li><a href="invoice.html">Basic</a></li>
+                                <li><a href="invoice-editable.html">Editable</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="sidebar-sub-toggle"><i class="ti-target"></i> Pages <span class="sidebar-collapse-icon ti-angle-down"></span></a>
+                            <ul>
+                                <li><a href="page-login.html">Login</a></li>
+                                <li><a href="page-register.html">Register</a></li>
+                                <li><a href="page-reset-password.html">Forgot password</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="../documentation/index.html"><i class="ti-file"></i> Documentation</a></li>
+                        <li><a><i class="ti-close"></i> Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /# sidebar -->
+
+            <div class="header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="float-left">
+                        <div class="header-icon" >
+                        <a class="navbar-brand waves-effect waves-dark" href="index.html">
+                            <i class="large material-icons"></i> <strong>白马农业科技园区</strong></a>
+                        </div>
+                        <div class="hamburger sidebar-toggle">
+                            <span class="line"></span>
+                            <span class="line"></span>
+                            <span class="line"></span>
+                        </div>
+                    </div>
+                    <div class="float-right">
+                        <div class="dropdown dib">
+                            <div class="header-icon" data-toggle="dropdown">
+                                <a class="navbar-brand waves-effect waves-dark" href="index.html">
+                                    <i class="large material-icons"></i> <strong>GIS</strong></a>
+                            </div>
+                        </div>
+                        <div class="dropdown dib">
+                            <div class="header-icon" data-toggle="dropdown">
+                                <a class="navbar-brand waves-effect waves-dark" href="index.html">
+                                    <i class="large material-icons"></i> 信息服务</a>
+                            </div>
+                        </div>
+                        <div class="dropdown dib">
+                            <div class="header-icon" data-toggle="dropdown">
+                                <a class="navbar-brand waves-effect waves-dark" href="index.html">
+                                    <i class="large material-icons"></i> 成果管理</a>
+                            </div>
+                        </div>
+                        <div class="dropdown dib">
+                            <div class="header-icon" data-toggle="dropdown">
+                                <i class="ti-bell"></i>
+                                <div class="drop-down dropdown-menu dropdown-menu-right">
+                                    <div class="dropdown-content-heading">
+                                        <span class="text-left">Recent Notifications</span>
+                                    </div>
+                                    <div class="dropdown-content-body">
+                                        <ul>
+                                            <li>
+                                                <a href="#">
+                                                    <img class="pull-left m-r-10 avatar-img" src="../static/assets1/images/avatar/3.jpg" alt="" />
+                                                    <div class="notification-content">
+                                                        <small class="notification-timestamp pull-right">02:34 PM</small>
+                                                        <div class="notification-heading">Mr. John</div>
+                                                        <div class="notification-text">5 members joined today </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <img class="pull-left m-r-10 avatar-img" src="../static/assets1/images/avatar/3.jpg" alt="" />
+                                                    <div class="notification-content">
+                                                        <small class="notification-timestamp pull-right">02:34 PM</small>
+                                                        <div class="notification-heading">Mariam</div>
+                                                        <div class="notification-text">likes a photo of you</div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <img class="pull-left m-r-10 avatar-img" src="../static/assets1/images/avatar/3.jpg" alt="" />
+                                                    <div class="notification-content">
+                                                        <small class="notification-timestamp pull-right">02:34 PM</small>
+                                                        <div class="notification-heading">Tasnim</div>
+                                                        <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <img class="pull-left m-r-10 avatar-img" src="../static/assets1/images/avatar/3.jpg" alt="" />
+                                                    <div class="notification-content">
+                                                        <small class="notification-timestamp pull-right">02:34 PM</small>
+                                                        <div class="notification-heading">Mr. John</div>
+                                                        <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li class="text-center">
+                                                <a href="#" class="more-link">See All</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dropdown dib">
+                            <div class="header-icon" data-toggle="dropdown">
+                                <i class="ti-email"></i>
+                                <div class="drop-down dropdown-menu dropdown-menu-right">
+                                    <div class="dropdown-content-heading">
+                                        <span class="text-left">2 New Messages</span>
+                                        <a href="email.html">
+                                            <i class="ti-pencil-alt pull-right"></i>
+                                        </a>
+                                    </div>
+                                    <div class="dropdown-content-body">
+                                        <ul>
+                                            <li class="notification-unread">
+                                                <a href="#">
+                                                    <img class="pull-left m-r-10 avatar-img" src="../static/assets1/images/avatar/1.jpg" alt="" />
+                                                    <div class="notification-content">
+                                                        <small class="notification-timestamp pull-right">02:34 PM</small>
+                                                        <div class="notification-heading">Michael Qin</div>
+                                                        <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li class="notification-unread">
+                                                <a href="#">
+                                                    <img class="pull-left m-r-10 avatar-img" src="../static/assets1/images/avatar/2.jpg" alt="" />
+                                                    <div class="notification-content">
+                                                        <small class="notification-timestamp pull-right">02:34 PM</small>
+                                                        <div class="notification-heading">Mr. John</div>
+                                                        <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <img class="pull-left m-r-10 avatar-img" src="../static/assets1/images/avatar/3.jpg" alt="" />
+                                                    <div class="notification-content">
+                                                        <small class="notification-timestamp pull-right">02:34 PM</small>
+                                                        <div class="notification-heading">Michael Qin</div>
+                                                        <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <img class="pull-left m-r-10 avatar-img" src="../static/assets1/images/avatar/2.jpg" alt="" />
+                                                    <div class="notification-content">
+                                                        <small class="notification-timestamp pull-right">02:34 PM</small>
+                                                        <div class="notification-heading">Mr. John</div>
+                                                        <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li class="text-center">
+                                                <a href="#" class="more-link">See All</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dropdown dib">
+                            <div class="header-icon" data-toggle="dropdown">
+                                <span class="user-avatar">John
+                                    <i class="ti-angle-down f-s-10"></i>
+                                </span>
+                                <div class="drop-down dropdown-profile dropdown-menu dropdown-menu-right">
+                                    <div class="dropdown-content-heading">
+                                        <span class="text-left">Upgrade Now</span>
+                                        <p class="trial-day">30 Days Trail</p>
+                                    </div>
+                                    <div class="dropdown-content-body">
+                                        <ul>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="ti-user"></i>
+                                                    <span>Profile</span>
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a href="#">
+                                                    <i class="ti-email"></i>
+                                                    <span>Inbox</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="ti-settings"></i>
+                                                    <span>Setting</span>
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a href="#">
+                                                    <i class="ti-lock"></i>
+                                                    <span>Lock Screen</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="ti-power-off"></i>
+                                                    <span>Logout</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="content-wrap">
+            <div class="main">
+                <div class="container-fluid">
+                    <input type="submit" value="图表" onclick="display('lb')">
+                    <div id="lb" style="width: 200px;height:600px;display:none;float:left">
+                        <!--<font>div属性：style ="display:none" 默认隐藏div</font>-->
+
+                        <table id="customers" border="1" bordercolor="black"  style="color:black;width: 200px;height:300px;top:100px;">
+                                <tr>
+                                    <th>Company</th>
+                                    <th>Contact</th>
+                                    <th>Country</th>
+                                </tr>
+                                <tr><td>Apple</td>
+                                    <td>Steven Jobs</td>
+                                    <td>USA</td></tr>
+                                <tr class="alt">
+                                    <td>Baidu</td>
+                                    <td>Li YanHong</td>
+                                    <td>China</td>
+                                </tr>
+                                <tr><td>Google</td>
+                                    <td>Larry Page</td>
+                                    <td>USA</td></tr>
+                                <tr class="alt">
+                                    <td>Lenovo</td>
+                                    <td>Liu Chuanzhi</td>
+                                    <td>China</td>
+                                </tr>
+                                <tr><td>Microsoft</td>
+                                    <td>Bill Gates</td>
+                                    <td>USA</td>
+                                </tr>
+                                <tr class="alt">
+                                    <td>Nokia</td>
+                                    <td>Stephen Elop</td>
+                                    <td>Finland</td></tr>
+                            </table>
+                        <div id="container" style="width: 200px;height:300px;top:50px;" class="echart2">
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <!--<div class="col-lg-12">-->
+                        <!--<div class="row">-->
+                        <div class="container-fluid">
+                            <div class="float-left">
+                                <div class="dropdown dib">
+                                    <div class="header-icon" data-toggle="dropdown">
+                                        <i class="icon ion-briefcase">工具箱</i>
+                                        <div class="drop-down dropdown-menu dropdown-menu-right"></div>
+                                    </div>
+                                </div>
+                                <div class="dropdown dib">
+                                    <div class="header-icon" data-toggle="dropdown">
+                                        <i class="icon ion-location">地图量算</i>
+                                        <div class="drop-down dropdown-menu dropdown-menu-right"></div>
+                                    </div>
+                                </div>
+                                <div class="dropdown dib">
+                                    <div class="header-icon" data-toggle="dropdown">
+                                        <i class="icon ion-image">图例</i>
+                                        <div class="drop-down dropdown-menu dropdown-menu-right"></div>
+                                    </div>
+                                </div>
+                                <div class="dropdown dib">
+                                    <div class="header-icon" data-toggle="dropdown">
+                                        <i class="icon ion-search">空间查询</i>
+                                        <div class="drop-down dropdown-menu dropdown-menu-right"></div>
+                                    </div>
+                                </div>
+                                <div class="dropdown dib">
+                                    <div class="header-icon" data-toggle="dropdown">
+                                        <i class="icon ion-images">图层管理</i>
+                                        <div class="drop-down dropdown-menu dropdown-menu-right"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3" >
+                            <!--<div class="card">-->
+                            <div class="stat-widget-one">
+
+
+                            <div style="width:1200px;height:550px;border:#ccc solid 1px;position: relative;margin:0px auto;top: 0px;" id="dituContent" class="gis1"></div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        
+        <!-- jquery vendor -->
+        <script src="../static/assets1/js/lib/jquery.min.js"></script>
+        <script src="../static/assets1/js/lib/jquery.nanoscroller.min.js"></script>
+        <!-- nano scroller -->
+        <script src="../static/assets1/js/lib/menubar/sidebar.js"></script>
+        <script src="../static/assets1/js/lib/preloader/pace.min.js"></script>
+        <!-- sidebar -->
+
+        <script src="../static/assets1/js/lib/bootstrap.min.js"></script><script src="../static/assets1/js/scripts.js"></script>
+        <!-- bootstrap -->
+
+        <script src="../static/assets1/js/lib/calendar-2/moment.latest.min.js"></script>
+        <script src="../static/assets1/js/lib/calendar-2/pignose.calendar.min.js"></script>
+        <script src="../static/assets1/js/lib/calendar-2/pignose.init.js"></script>
+
+
+        <script src="../static/assets1/js/lib/weather/jquery.simpleWeather.min.js"></script>
+        <script src="../static/assets1/js/lib/weather/weather-init.js"></script>
+        <script src="../static/assets1/js/lib/circle-progress/circle-progress.min.js"></script>
+        <script src="../static/assets1/js/lib/circle-progress/circle-progress-init.js"></script>
+        <script src="../static/assets1/js/lib/chartist/chartist.min.js"></script>
+        <script src="../static/assets1/js/lib/sparklinechart/jquery.sparkline.min.js"></script>
+        <script src="../static/assets1/js/lib/sparklinechart/sparkline.init.js"></script>
+        <script src="../static/assets1/js/lib/owl-carousel/owl.carousel.min.js"></script>
+        <script src="../static/assets1/js/lib/owl-carousel/owl.carousel-init.js"></script>
+        <!-- scripit init-->
+    <script src="../static/assets1/js/dashboard2.js"></script>
+    </body>
+    <script>window.jQuery || document.write('<script src="../static/style2/js/jquery-2.1.1.min.js"><\/script>')</script>
+    <script type="text/javascript">
+        $(function(){
+            $('.menu , .linee').on('click', function() {
+                $('.menu').toggleClass('over')
+                $('.linea1').toggleClass('overL1')
+                $('.linea2').toggleClass('overL2')
+                $('.linea3').toggleClass('overL3')
+                $('.main-menu').toggleClass('overmain')
+            });
+        })
+    </script>
+
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('container'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: '示例'
+            },
+            tooltip: {},
+            legend: {
+                data:['销量']
+            },
+            xAxis: {
+                // data: ["哈登","杜兰特","戴维斯","詹姆斯","阿德托昆博","恩比德","利拉德","沃克","伦纳德","拉文"]
+                type: 'category',
+                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                // name: '得分',
+                // type: 'bar',
+                // data: [30.6, 30.0, 28.2, 27.8, 27.6, 27.0,27.0,26.5,25.5,25.0]
+                data: [820, 932, 901, 934, 1290, 1330, 1320],
+                type: 'line'
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+
+    <script type="text/javascript">
+        //创建和初始化地图函数：
+        function initMap(){
+            createMap();//创建地图
+            setMapEvent();//设置地图事件
+            addMapControl();//向地图添加控件
+            addMarker();//向地图中添加marker
+        }
+
+        //创建地图函数：
+        function createMap(){
+            var map = new BMap.Map("dituContent");//在百度地图容器中创建一个地图
+            //var map = new google.maps.Map(document.getElementById("mapGoogle"),{mapTypeId: google.maps.MapTypeId.SATELLITE});
+            //var map = new BMap.Map("dituContent",{mapType: BMAP_HYBRID_MAP});      //设置卫星图为底图
+            //var point = new BMap.Point(118.800872,32.061806);//定义一个中心点坐标
+            var point = new BMap.Point(119.187872,31.623814);//定义一个中心点坐标
+            map.centerAndZoom(point,16);//设定地图的中心点和坐标并将地图显示在地图容器中
+            window.map = map;//将map变量存储在全局
+        }
+
+        //地图事件设置函数：
+        function setMapEvent(){
+            map.enableDragging();//启用地图拖拽事件，默认启用(可不写)
+            map.enableScrollWheelZoom();//启用地图滚轮放大缩小
+            map.enableDoubleClickZoom();//启用鼠标双击放大，默认启用(可不写)
+            map.enableKeyboard();//启用键盘上下左右键移动地图
+           // map.addControl(new BMap.MapTypeControl());
+           // map.setMapType(BMAP_PERSPECTIVE_MAP);
+            map.setCurrentCity("南京");
+        }
+
+        //地图控件添加函数：
+        function addMapControl(){
+            //向地图中添加缩放控件
+            var ctrl_nav = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_LARGE});
+            map.addControl(ctrl_nav);
+            //向地图中添加缩略图控件
+            var ctrl_ove = new BMap.OverviewMapControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT,isOpen:1});
+            map.addControl(ctrl_ove);
+            //向地图中添加比例尺控件
+            var ctrl_sca = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
+            map.addControl(ctrl_sca);
+            // var map_type = new BMap.MapTypeControl({ mapTypes: BMAP_SATELLITE_MAP,MapTypeControlType:BMAP_MAPTYPE_CONTROL_DROPDOWN });
+            // map.addControl(map_type);
+            map.addControl(new BMap.MapTypeControl());
+            //map.addControl(new BMap.MapTypeControl({mapTypes: [BMAP_NORMAL_MAP,BMAP_SATELLITE_MAP,BMAP_PERSPECTIVE_MAP]}));
+           //map.addControl(new BMap.MapTypeControl());
+        }
+
+        //标注点数组
+        // var markerArr = [{title:"东南大学中心楼",content:"434实验室",point:"118.800643|32.062869",isOpen:0,icon:{w:21,h:21,l:0,t:0,x:6,lb:5}}
+        // ];
+        // var markerArr = [{title:"农业大学",content:"我的备注",point:"119.180955|31.624091",isOpen:0,icon:{w:21,h:21,l:0,t:0,x:6,lb:5}}
+        //     ,{title:"白马基地",content:"我的备注",point:"119.187027|31.620247",isOpen:0,icon:{w:21,h:21,l:0,t:0,x:6,lb:5}}
+        // ];
+        var markerArr=[{title:"农业大学",content:"<h4 style='margin:0 0 5px 0;padding:0.2em 0'></h4>" +
+                "<img style='float:left;margin:4px' id='imgDemo' src='../static/images/nongyedaxue.jpg' width='139' height='104' title='农业大学'/>" ,
+            point:"119.180955|31.624091",isOpen:0,icon:{w:21,h:21,l:0,t:0,x:6,lb:5}},
+            {title:"农科院",
+                content:"<h4 style='margin:0 0 5px 0;padding:0.2em 0'></h4><a href='../static/tour.html ' target='_blank'>进入全景</a>"+
+            "<img style='float:left;margin:4px' id='imgDemo1' src='../static/images/baimayuanqu.jpg' width='139' height='104' title='农科院'/>",
+                point:"119.187027|31.620247",isOpen:0,icon:{w:21,h:21,l:0,t:0,x:6,lb:5}}
+        ];
+
+        function markerContent(){
+            $.ajax({
+                type:"POST",
+                url:"/dataInfo/spotInfo",
+                success:function(data){
+                    console.log("获取数据为"+data);
+                    return data;
+                }
+            });
+        }
+        //创建marker
+        function addMarker(){
+            for(var i=0;i<markerArr.length;i++){
+                var json = markerArr[i];
+                var p0 = json.point.split("|")[0];
+                var p1 = json.point.split("|")[1];
+                var point = new BMap.Point(p0,p1);
+                //var iconImg = createIcon(json.icon);
+                //var iconImg = new BMap.Icon("/jsdemo/img/fox.gif", new BMap.Size(300,157));
+                //var marker = new BMap.Marker(point,{icon:iconImg});
+                var marker = new BMap.Marker(point);
+                marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+                var iw = createInfoWindow(i);
+                var label = new BMap.Label(json.title,{"offset":new BMap.Size(json.icon.lb-json.icon.x+10,-20)});
+                marker.setLabel(label);
+                map.addOverlay(marker);
+                label.setStyle({
+                    borderColor:"#808080",
+                    color:"#333",
+                    cursor:"pointer"
+                });
+
+                (function(){
+                    var index = i;
+                    var _iw = createInfoWindow(i);
+                    var _marker = marker;
+                    _marker.addEventListener("click",function(){
+                        alert("修改成功！");
+                        //this.openInfoWindow(_iw);
+                        var json2={};
+                        json2.id="1";
+                        var data=JSON.stringify(json2);
+                        $.ajax({
+                            type:"POST",
+                            url:"/dataInfo/spotInfo",
+                            data:data,
+                            contentType:"application/json",
+                            success:function (data) {
+                                json.content=data.site+" "+data.temp;
+                                _marker.openInfoWindow(new BMap.InfoWindow("<b class='iw_poi_title' title='" + json.title + "'>" + json.title + "</b>" +
+                                    "<div class='iw_poi_content'>"+json.content+"</div>"))
+                            }
+                        })
+
+                    });
+                    _iw.addEventListener("open",function(){
+                        _marker.getLabel().hide();
+                    })
+                    _iw.addEventListener("close",function(){
+                        _marker.getLabel().show();
+                    })
+                    label.addEventListener("click",function(){
+                        _marker.openInfoWindow(_iw);
+                        this.openInfoWindow(infoWindow);
+                        //图片加载完毕重绘infowindow
+                        document.getElementById('imgDemo').onload = function () {
+                            infoWindow.redraw();   //防止在网速较慢，图片未加载时，生成的信息框高度比图片的总高度小，导致图片部分被隐藏
+                        }
+
+                        })
+                    if(!!json.isOpen){
+                        label.hide();
+                        _marker.openInfoWindow(_iw);
+                    }
+                })()
+            }
+        }
+        //创建InfoWindow
+        function createInfoWindow(i){
+            var json = markerArr[i];
+            // var data1;
+            // $.ajax({
+            //     type:"POST",
+            //     url:"/dataInfo/spotInfo",
+            //     success:function(data){
+            //         console.log("获取数据为"+data);
+            //         data1=data;
+            //     }
+            // });
+            var iw = new BMap.InfoWindow("<b class='iw_poi_title' title='" + json.title + "'>" + json.title + "</b>" +
+                "<div class='iw_poi_content'>"+json.content+"</div>");
+            return iw;
+        }
+        //创建一个Icon
+        function createIcon(json){
+            var icon = new BMap.Icon("http://app.baidu.com/map/images/us_mk_icon.png", new BMap.Size(json.w,json.h),{imageOffset: new BMap.Size(-json.l,-json.t),infoWindowOffset:new BMap.Size(json.lb+5,1),offset:new BMap.Size(json.x,json.h)})
+            return icon;
+        }
+
+        initMap();//创建和初始化地图
+    </script>
+</html>

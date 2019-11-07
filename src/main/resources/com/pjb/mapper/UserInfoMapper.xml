@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pjb.mapper.UserInfoMapper">
+
+    <select id="findByUsername" resultType="com.pjb.entity.UserInfo">
+select * from t_shirodemo_user where username = #{username}
+</select>
+
+    <select id="findSaltByUsername" resultType="string">
+select salt from t_shirodemo_user where username = #{username}
+</select>
+
+    <select id="addUser" parameterType="com.pjb.entity.UserInfo" >
+ 		insert into t_shirodemo_user (username,worknumber,password,salt,state)
+ 		 values(#{username},#{worknumber},#{password},#{salt},#{state})
+ 	</select>
+
+    <select id="retrievePassword" parameterType="com.pjb.entity.UserInfo" >
+        update t_shirodemo_user set password=#{password}, salt=#{salt}
+        where username=#{username}
+    </select>
+
+    <select id="findPasswordByUsername" resultType="com.pjb.entity.UserInfo" >
+        select  password ,salt from t_shirodemo_user where username=#{username}
+    </select>
+
+</mapper>

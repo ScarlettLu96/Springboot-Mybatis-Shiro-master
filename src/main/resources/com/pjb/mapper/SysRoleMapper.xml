@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pjb.mapper.SysRoleMapper">
+
+    <select id="findRoleByUsername" resultType="com.pjb.entity.SysRole">
+  SELECT
+            t_shirodemo_user.id,
+            t_shirodemo_user.worknumber,
+            t_shirodemo_user.password,
+            t_shirodemo_user.salt,
+            t_shirodemo_user.state,
+            t_shirodemo_user.username,
+            t_shirodemo_role.id,
+            t_shirodemo_role.available,
+            t_shirodemo_role.description,
+            t_shirodemo_role.role
+        FROM
+            t_shirodemo_user
+        RIGHT JOIN t_shirodemo_user_role ON t_shirodemo_user.id = t_shirodemo_user_role.user_id
+        LEFT JOIN t_shirodemo_role ON t_shirodemo_user_role.role_id = t_shirodemo_role.id
+        WHERE username=#{username}
+    </select>
+</mapper>
